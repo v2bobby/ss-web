@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomaSync • Precision Anatomy. Public Health Impact.</title>
+    <meta name="description" content="SomaSync bridges human anatomy and public health literacy. A high-end platform demystifying medical conditions through mechanistic anatomical understanding. Designed for global reach and measurable impact.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --primary-blue: #0A66C2;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        .section-header {
+            font-size: 2.75rem;
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
+
+        .premium-card {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .premium-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+        }
+
+        .nav-active {
+            color: #0A66C2;
+            font-weight: 600;
+        }
+
+        .glass {
+            background: rgba(255,255,255, 0.08);
+            backdrop-filter: blur(20px);
+        }
+
+        .medical-blue {
+            color: #0A66C2;
+        }
+
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timeline-dot {
+            box-shadow: 0 0 0 4px #0A66C2, 0 0 0 8px rgba(10, 102, 194, 0.1);
+        }
+
+        .anatomy-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .anatomy-hover:hover {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        .modal {
+            animation: modalPopIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalPopIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .nav-scrolled {
+            background-color: rgba(9, 9, 11, 0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        .feature-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .premium-card:hover .feature-icon {
+            transform: scale(1.1) rotate(3deg);
+        }
+
+        .metric-value {
+            font-feature-settings: "ss02";
+        }
+
+        .body-system {
+            transition: all 0.2s ease;
+        }
+        
+        .body-system:hover {
+            background-color: #18181b;
+            transform: translateY(-2px);
+        }
+
+        .clean-clinical {
+            background: linear-gradient(145deg, #09090b 0%, #18181b 100%);
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200 antialiased">
+    <!-- NAVBAR -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-zinc-800">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="px-8 py-5 flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-x-3">
+                    <div class="w-9 h-9 rounded-2xl bg-[#0A66C2] flex items-center justify-center shadow-inner">
+                        <span class="text-white font-bold text-3xl tracking-tighter font-display">S</span>
+                    </div>
+                    <div>
+                        <span class="font-display text-3xl font-semibold tracking-tighter">SomaSync</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-x-9 text-sm font-medium">
+                    <a href="#problem" class="hover:text-[#0A66C2] transition-colors">The Challenge</a>
+                    <a href="#features" class="hover:text-[#0A66C2] transition-colors">Platform</a>
+                    <a href="#impact" class="hover:text-[#0A66C2] transition-colors">Impact</a>
+                    <a href="#roadmap" class="hover:text-[#0A66C2] transition-colors">Roadmap</a>
+                </div>
+
+                <div class="flex items-center gap-x-3">
+                    <!-- Scholarship CTA -->
+                    <button onclick="document.getElementById('scholarship-modal').showModal()"
+                            class="hidden md:block px-5 py-2.5 text-sm font-semibold rounded-3xl border border-zinc-700 hover:bg-zinc-900 transition-all active:scale-[0.985]">
+                        For Committees
+                    </button>
+                    
+                    <!-- Primary CTA -->
+                    <button onclick="showDemoModal()"
+                            class="px-6 py-2.5 bg-[#0A66C2] hover:bg-[#0959a8] transition-all text-white text-sm font-semibold rounded-3xl flex items-center gap-x-2 active:scale-[0.985]">
+                        <span>Launch Demo</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+
+                    <!-- Mobile menu -->
+                    <button class="md:hidden w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white" onclick="toggleMobileMenu()">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="relative pt-20 min-h-[100dvh] flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 bg-cover bg-center" 
+             style="background-image: url('hero-visual.jpg');">
+            <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/90 to-zinc-950"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(#27272a_0.8px,transparent_1px)] bg-[length:5px_5px]"></div>
+        </div>
+        
+        <div class="relative max-w-screen-2xl mx-auto px-8 pt-12 pb-20">
+            <div class="max-w-4xl mx-auto text-center">
+                <!-- Trust badge -->
+                <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 mb-8">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="text-xs font-medium tracking-[1px] text-emerald-400">MVP IN DEVELOPMENT • PILOT 2026</span>
+                </div>
+
+                <h1 class="text-7xl md:text-8xl font-semibold tracking-tighter leading-none mb-6 font-display">
+                    Precision anatomy.<br>
+                    <span class="text-[#0A66C2]">Public health impact.</span>
+                </h1>
+                
+                <p class="max-w-lg mx-auto text-2xl text-zinc-400 tracking-tight mb-10">
+                    SomaSync demystifies complex medical conditions by rooting them in fundamental human anatomy.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button onclick="document.getElementById('features').scrollIntoView({ behavior: 'smooth' })" 
+                            class="group w-full sm:w-auto px-8 py-4 bg-white text-zinc-950 font-semibold rounded-3xl flex items-center justify-center gap-x-3 hover:bg-zinc-100 active:scale-[0.985] transition-all text-base">
+                        <span>Explore the Platform</span>
+                        <i class="fa-solid fa-arrow-down group-active:translate-y-0.5 transition-transform"></i>
+                    </button>
+                    
+                    <button onclick="document.getElementById('impact').scrollIntoView({ behavior: 'smooth' })" 
+                            class="w-full sm:w-auto px-8 py-4 border border-white/30 hover:bg-white/5 font-semibold rounded-3xl flex items-center justify-center gap-x-3 transition-all text-base">
+                        <span>View Impact Data</span>
+                    </button>
+                </div>
+                
+                <div class="mt-12 flex justify-center">
+                    <div class="flex items-center gap-x-8 text-sm">
+                        <div class="flex -space-x-2">
+                            <div class="w-7 h-7 bg-zinc-700 border border-zinc-800 rounded-full ring-2 ring-zinc-950"></div>
+                            <div class="w-7 h-7 bg-zinc-600 border border-zinc-800 rounded-full ring-2 ring-zinc-950"></div>
+                            <div class="w-7 h-7 bg-zinc-500 border border-zinc-800 rounded-full ring-2 ring-zinc-950"></div>
+                        </div>
+                        <span class="text-zinc-500 text-xs tracking-widest">TRUSTED BY HEALTH INNOVATORS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 hidden md:block">
+            <div class="flex flex-col items-center gap-y-1 text-[10px] tracking-[2px] text-zinc-500">
+                <span>SCROLL TO BEGIN</span>
+                <i class="fa-solid fa-chevron-down text-xs animate-bounce"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- PROBLEM / THE CHALLENGE -->
+    <section id="problem" class="max-w-screen-2xl mx-auto px-8 pt-20 pb-16 border-b border-zinc-800">
+        <div class="max-w-3xl mx-auto text-center mb-14">
+            <div class="inline-block px-4 py-1 rounded-2xl bg-red-950/60 text-red-400 text-xs font-semibold tracking-widest mb-4">THE LITERACY-MECHANISM GAP</div>
+            <h2 class="section-header tracking-tighter">Public health fails when<br>anatomy is invisible.</h2>
+            <p class="mt-4 text-xl text-zinc-400">Patients receive labels like “hypertension” without understanding the vascular resistance or cardiac load driving their condition. This gap is not academic — it is lethal.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <!-- Problem Card 1 -->
+            <div class="premium-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                <div class="w-12 h-12 rounded-2xl bg-red-950/70 flex items-center justify-center mb-6">
+                    <i class="fa-solid fa-user-xmark text-red-400 text-3xl"></i>
+                </div>
+                <h3 class="font-semibold text-2xl tracking-tight mb-3">Low Treatment Adherence</h3>
+                <p class="text-zinc-400 leading-relaxed">Patients are far less likely to follow protocols they do not mechanically understand. Knowledge without context breeds disengagement.</p>
+                <div class="mt-6 pt-6 border-t border-zinc-800 text-xs text-red-400 font-medium flex items-center gap-x-2">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Up to 50% of chronic disease patients discontinue care</span>
+                </div>
+            </div>
+
+            <!-- Problem Card 2 -->
+            <div class="premium-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                <div class="w-12 h-12 rounded-2xl bg-amber-950/70 flex items-center justify-center mb-6">
+                    <i class="fa-solid fa-exclamation-triangle text-amber-400 text-3xl"></i>
+                </div>
+                <h3 class="font-semibold text-2xl tracking-tight mb-3">Myth Proliferation</h3>
+                <p class="text-zinc-400 leading-relaxed">In the absence of clear anatomical facts, misinformation fills the void — detox teas, miracle cures, and dangerous folk remedies spread unchecked.</p>
+                <div class="mt-6 pt-6 border-t border-zinc-800 text-xs text-amber-400 font-medium flex items-center gap-x-2">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>Health myths spread 6× faster than facts on digital platforms</span>
+                </div>
+            </div>
+
+            <!-- Problem Card 3 -->
+            <div class="premium-card bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+                <div class="w-12 h-12 rounded-2xl bg-sky-950/70 flex items-center justify-center mb-6">
+                    <i class="fa-solid fa-globe text-sky-400 text-3xl"></i>
+                </div>
+                <h3 class="font-semibold text-2xl tracking-tight mb-3">Health Inequity</h3>
+                <p class="text-zinc-400 leading-relaxed">Low-bandwidth communities lack access to clear, medically accurate, jargon-free anatomical education. The result is a widening knowledge divide.</p>
+                <div class="mt-6 pt-6 border-t border-zinc-800 text-xs text-sky-400 font-medium flex items-center gap-x-2">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Global disparities in health literacy remain stubbornly high</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES / PLATFORM -->
+    <section id="features" class="max-w-screen-2xl mx-auto px-8 py-20 bg-zinc-900/50">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+            <div class="text-[#0A66C2] text-xs font-bold tracking-[3px] mb-3">STRATEGIC CORE FUNCTIONALITIES</div>
+            <h2 class="section-header tracking-tighter">A Biology-First approach<br>to health literacy.</h2>
+            <p class="mt-4 text-xl text-zinc-400">Every feature is engineered to make the invisible visible — and the complex intuitive.</p>
+        </div>
+
+        <!-- Feature 1: Visual Anatomy Library -->
+        <div class="max-w-6xl mx-auto mb-12">
+            <div class="grid lg:grid-cols-5 gap-8 items-center">
+                <div class="lg:col-span-3">
+                    <div class="flex items-center gap-x-4 mb-5">
+                        <div class="px-4 py-1.5 rounded-2xl bg-[#0A66C2]/10 text-[#0A66C2] text-sm font-semibold flex items-center gap-x-2">
+                            <i class="fa-solid fa-book-medical"></i>
+                            <span>01 — CMS</span>
+                        </div>
+                    </div>
+                    <h3 class="text-5xl font-semibold tracking-tighter mb-4">Visual Anatomy Library</h3>
+                    <p class="text-xl text-zinc-400 max-w-md">A structured repository of articles categorized by anatomical systems — not symptoms. This encourages a true Biology-First understanding.</p>
+                    
+                    <div class="mt-8 bg-zinc-950 border border-zinc-800 rounded-3xl p-6">
+                        <div class="flex items-start gap-x-4">
+                            <div class="mt-1 text-[#0A66C2]">
+                                <i class="fa-solid fa-lightbulb text-xl"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm tracking-wider text-[#0A66C2] mb-1">KEY INNOVATION</div>
+                                <p class="text-zinc-300">Every article begins with a <span class="font-semibold">"Normal Anatomy"</span> baseline before introducing "Pathological Alteration." Users understand what is broken before learning how to fix it.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-2">
+                    <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-8 text-sm">
+                        <div class="uppercase text-xs tracking-widest text-zinc-500 mb-4">CURRENT COVERAGE (MVP)</div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-x-3"><i class="fa-solid fa-lungs text-sky-400 w-4"></i> <span>Respiratory System</span></div>
+                                <span class="font-mono text-xs bg-zinc-900 px-3 py-1 rounded-2xl">LIVE</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-x-3"><i class="fa-solid fa-heart-pulse text-red-400 w-4"></i> <span>Circulatory System</span></div>
+                                <span class="font-mono text-xs bg-zinc-900 px-3 py-1 rounded-2xl">LIVE</span>
+                            </div>
+                            <div class="flex justify-between items-center opacity-60">
+                                <div class="flex items-center gap-x-3"><i class="fa-solid fa-brain text-violet-400 w-4"></i> <span>Nervous System</span></div>
+                                <span class="font-mono text-xs">Q3 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Body Map -->
+        <div class="max-w-6xl mx-auto mb-12">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-10">
+                <div class="flex flex-col lg:flex-row gap-10">
+                    <div class="lg:w-5/12">
+                        <div class="sticky top-24">
+                            <div class="px-4 py-1.5 rounded-2xl bg-emerald-950/60 text-emerald-400 text-xs font-semibold tracking-widest inline-block mb-4">02 — PRIMARY UX</div>
+                            <h3 class="text-5xl font-semibold tracking-tighter mb-4">Interactive Body Map</h3>
+                            <p class="text-xl text-zinc-400">For users in low-literacy or high-stress environments, visual discovery is dramatically more intuitive than text search.</p>
+                            
+                            <div class="mt-8">
+                                <div class="text-xs uppercase tracking-widest text-zinc-500 mb-3">HOW IT WORKS</div>
+                                <div class="space-y-3 text-sm">
+                                    <div class="flex gap-x-3"><span class="font-mono text-[#0A66C2] w-5">01</span> <span>Click any organ system</span></div>
+                                    <div class="flex gap-x-3"><span class="font-mono text-[#0A66C2] w-5">02</span> <span>Instant relevant public health insights</span></div>
+                                    <div class="flex gap-x-3"><span class="font-mono text-[#0A66C2] w-5">03</span> <span>Seamless transition to deep-dive articles</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Body Systems Grid -->
+                    <div class="lg:w-7/12">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="body-map">
+                            <!-- Populated by JS -->
+                        </div>
+                        <p class="text-center text-xs text-zinc-500 mt-5">Click any system to explore live insights • Fully responsive for mobile</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Myth Busters -->
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-10">
+                <div class="grid lg:grid-cols-12 gap-x-10 items-center">
+                    <div class="lg:col-span-5 mb-8 lg:mb-0">
+                        <div class="px-4 py-1.5 rounded-2xl bg-violet-950/60 text-violet-400 text-xs font-semibold tracking-widest inline-block mb-4">03 — ANATOMICAL DEBUNKING</div>
+                        <h3 class="text-5xl font-semibold tracking-tighter mb-4">Myth-Busters Section</h3>
+                        <p class="text-xl text-zinc-400">Clinical rebuffs to misinformation using actual physiological pathways. No hand-waving. Only mechanism.</p>
+                    </div>
+                    
+                    <div class="lg:col-span-7">
+                        <div class="space-y-4">
+                            <!-- Myth 1 -->
+                            <div onclick="showMythModal(0)" class="group cursor-pointer bg-zinc-950 hover:bg-zinc-900 border border-zinc-800 hover:border-violet-900/50 transition-all rounded-3xl p-6 flex gap-x-5 items-start">
+                                <div class="text-violet-400 mt-1"><i class="fa-solid fa-ban text-2xl"></i></div>
+                                <div class="flex-1">
+                                    <div class="font-semibold">"Detox teas cleanse your liver"</div>
+                                    <div class="text-sm text-zinc-400 mt-1">The liver does not require external 'cleansing'. It is a self-regulating organ with specific enzymatic pathways.</div>
+                                    <div class="mt-3 text-xs text-violet-400 group-hover:underline">See anatomical debunk →</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Myth 2 -->
+                            <div onclick="showMythModal(1)" class="group cursor-pointer bg-zinc-950 hover:bg-zinc-900 border border-zinc-800 hover:border-violet-900/50 transition-all rounded-3xl p-6 flex gap-x-5 items-start">
+                                <div class="text-violet-400 mt-1"><i class="fa-solid fa-ban text-2xl"></i></div>
+                                <div class="flex-1">
+                                    <div class="font-semibold">"You only use 10% of your brain"</div>
+                                    <div class="text-sm text-zinc-400 mt-1">Neuroimaging and lesion studies demonstrate near-total brain activity across daily tasks. The myth has no anatomical basis.</div>
+                                    <div class="mt-3 text-xs text-violet-400 group-hover:underline">See anatomical debunk →</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECHNICAL EXECUTION -->
+    <section class="max-w-screen-2xl mx-auto px-8 py-16 border-b border-zinc-800">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-y-8 md:items-end md:justify-between mb-10">
+                <div>
+                    <div class="text-[#0A66C2] text-xs font-bold tracking-[3px]">ENGINEERED FOR EQUITY</div>
+                    <h2 class="section-header tracking-tighter mt-2">Technical Execution<br>for Global Reach</h2>
+                </div>
+                <p class="max-w-xs text-zinc-400">Public health is most critical where internet is least reliable. Performance is not optional.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="premium-card bg-zinc-900 border border-zinc-800 rounded-3xl p-9">
+                    <h4 class="font-semibold flex items-center gap-x-3 text-xl mb-6"><i class="fa-solid fa-globe text-[#0A66C2]"></i> Low-Bandwidth Optimization</h4>
+                    <ul class="space-y-5 text-sm">
+                        <li class="flex gap-x-4"><span class="font-mono text-[#0A66C2] w-5">•</span> <span><strong>SVG Diagrams</strong> — Tiny file sizes, infinitely crisp at any resolution</span></li>
+                        <li class="flex gap-x-4"><span class="font-mono text-[#0A66C2] w-5">•</span> <span><strong>Static Site Generation</strong> — Near-instant loads even on 3G networks</span></li>
+                        <li class="flex gap-x-4"><span class="font-mono text-[#0A66C2] w-5">•</span> <span><strong>Aggressive Caching</strong> — Once viewed, diagrams never download again</span></li>
+                    </ul>
+                </div>
+                
+                <div class="premium-card bg-zinc-900 border border-zinc-800 rounded-3xl p-9">
+                    <h4 class="font-semibold flex items-center gap-x-3 text-xl mb-6"><i class="fa-solid fa-mobile-screen-button text-[#0A66C2]"></i> Mobile-First Experience</h4>
+                    <div class="space-y-4 text-sm text-zinc-300">
+                        <p>Navigation designed for "thumb-only" use. Every touch target meets or exceeds 48px guidelines.</p>
+                        <p>The Interactive Body Map is fully optimized for small screens — no precision tapping required.</p>
+                        <div class="pt-4 border-t border-zinc-800 text-xs text-emerald-400 flex items-center gap-x-2">
+                            <i class="fa-solid fa-check-double"></i>
+                            <span>Tested on low-end Android devices across Sub-Saharan Africa &amp; South Asia</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT & DATA ANALYTICS -->
+    <section id="impact" class="max-w-screen-2xl mx-auto px-8 py-20">
+        <div class="max-w-3xl mx-auto text-center mb-14">
+            <div class="text-[#0A66C2] text-xs font-bold tracking-[3px] mb-3">SCHOLARSHIP IMPACT &amp; DATA ANALYTICS</div>
+            <h2 class="section-header tracking-tighter">Proof of impact,<br>not just intention.</h2>
+            <p class="mt-4 text-xl text-zinc-400">For Chevening, Mastercard Foundation, and academic committees — every interaction is measured.</p>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8">
+            
+            <!-- Knowledge Check Quiz -->
+            <div class="premium-card bg-zinc-900 border border-zinc-800 rounded-3xl p-9">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h3 class="font-semibold text-3xl tracking-tight">Knowledge Check Quiz</h3>
+                        <p class="text-zinc-400 mt-1">Every article ends with a 3-question MCQ. Track real literacy lift.</p>
+                    </div>
+                    <i class="fa-solid fa-graduation-cap text-4xl text-[#0A66C2]/70"></i>
+                </div>
+                
+                <!-- Quiz Container -->
+                <div id="quiz-container">
+                    <div id="quiz-start">
+                        <button onclick="startQuiz()" 
+                                class="w-full py-4 bg-white hover:bg-zinc-100 active:bg-zinc-200 transition-colors text-zinc-950 font-semibold rounded-3xl flex items-center justify-center gap-x-2">
+                            <span>Begin 3-Question Literacy Assessment</span>
+                        </button>
+                        <p class="text-center text-xs text-zinc-500 mt-3">Simulated pre/post read data shown after completion</p>
+                    </div>
+                    
+                    <div id="quiz-questions" class="hidden">
+                        <div class="mb-4 flex justify-between items-center text-sm">
+                            <span id="question-progress" class="font-mono text-[#0A66C2]"></span>
+                            <span id="quiz-score" class="font-semibold"></span>
+                        </div>
+                        
+                        <div id="question-text" class="font-semibold text-xl tracking-tight mb-6"></div>
+                        
+                        <div id="options-container" class="space-y-3"></div>
+                        
+                        <div class="flex gap-x-3 mt-8">
+                            <button onclick="nextQuestion()" id="next-btn"
+                                    class="flex-1 py-3.5 bg-[#0A66C2] hover:bg-[#0959a8] font-semibold rounded-3xl transition-all">Next Question</button>
+                        </div>
+                    </div>
+                    
+                    <div id="quiz-results" class="hidden text-center py-4">
+                        <div class="text-6xl font-semibold text-emerald-400 mb-1" id="final-score"></div>
+                        <div class="text-sm tracking-widest text-emerald-400 mb-6">LITERACY LIFT ACHIEVED</div>
+                        
+                        <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 text-left text-sm mb-6">
+                            <div class="flex justify-between mb-2"><span class="text-zinc-400">Pre-read accuracy</span> <span id="pre-score" class="font-mono font-semibold"></span></div>
+                            <div class="flex justify-between"><span class="text-zinc-400">Post-read accuracy</span> <span id="post-score" class="font-mono font-semibold text-emerald-400"></span></div>
+                        </div>
+                        
+                        <button onclick="resetQuiz()" class="text-sm underline text-zinc-400 hover:text-white">Try another assessment</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Community Insights Dashboard -->
+            <div class="premium-card bg-zinc-900 border border-zinc-800 rounded-3xl p-9 flex flex-col">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h3 class="font-semibold text-3xl tracking-tight">Community Insights</h3>
+                        <p class="text-zinc-400">Heatmap of Concern — real-time anatomical priorities</p>
+                    </div>
+                </div>
+                
+                <div class="flex-1 flex flex-col">
+                    <canvas id="insights-chart" class="flex-1 w-full min-h-[260px]"></canvas>
+                    
+                    <div class="mt-auto pt-6 border-t border-zinc-800 text-xs text-zinc-400">
+                        Simulated regional pilot data • Circulatory system dominates in cardiovascular-heavy regions
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="max-w-3xl mx-auto mt-8 text-center">
+            <p class="text-sm text-zinc-500">All data collected anonymously. Designed to directly inform real-world public health interventions and scholarship reporting.</p>
+        </div>
+    </section>
+
+    <!-- DESIGN & TRUST -->
+    <section class="max-w-screen-2xl mx-auto px-8 py-16 border-y border-zinc-800 bg-zinc-900/40">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid md:grid-cols-12 gap-x-12 items-center">
+                <div class="md:col-span-5 mb-10 md:mb-0">
+                    <div class="text-[#0A66C2] text-xs font-bold tracking-[3px] mb-3">TRUST SIGNALS</div>
+                    <h2 class="section-header tracking-tighter">Clean-Clinical.<br>Human-centered.</h2>
+                    <p class="mt-5 text-lg text-zinc-400">Trust is the currency of health information. Our aesthetic signals authority, clarity, and modernity.</p>
+                </div>
+                
+                <div class="md:col-span-7">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-7">
+                            <div class="uppercase tracking-[1.5px] text-xs mb-4 text-zinc-500">PALETTE</div>
+                            <div class="flex gap-x-2 mb-4">
+                                <div class="w-9 h-9 rounded-2xl bg-[#0A66C2] ring-1 ring-offset-4 ring-offset-zinc-950 ring-[#0A66C2]/30"></div>
+                                <div class="w-9 h-9 rounded-2xl bg-white ring-1 ring-offset-4 ring-offset-zinc-950 ring-zinc-700"></div>
+                                <div class="w-9 h-9 rounded-2xl bg-zinc-400 ring-1 ring-offset-4 ring-offset-zinc-950 ring-zinc-700"></div>
+                            </div>
+                            <div class="text-xs">Medical Blue • White • Slate</div>
+                        </div>
+                        
+                        <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-7">
+                            <div class="uppercase tracking-[1.5px] text-xs mb-4 text-zinc-500">TYPOGRAPHY</div>
+                            <div class="font-display text-4xl tracking-tighter">Inter + Space Grotesk</div>
+                            <div class="text-xs mt-4 text-zinc-400">Optimized for long-form mobile reading with generous line-height and contrast.</div>
+                        </div>
+                        
+                        <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-7 flex flex-col">
+                            <div class="uppercase tracking-[1.5px] text-xs mb-4 text-zinc-500">FOUNDATIONAL BRANDING</div>
+                            <div class="text-sm flex-1">"The About the Founder section explicitly links deep anatomical expertise to scalable public health goals."</div>
+                            <div class="text-xs text-emerald-400 mt-auto pt-4">Humanizing clinical data</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section id="roadmap" class="max-w-screen-2xl mx-auto px-8 py-20">
+        <div class="max-w-4xl mx-auto text-center mb-14">
+            <div class="text-[#0A66C2] text-xs font-bold tracking-[3px] mb-3">DEVELOPMENT ROADMAP</div>
+            <h2 class="section-header tracking-tighter">From vision to<br>field deployment.</h2>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+            <div class="relative">
+                <!-- Timeline line -->
+                <div class="absolute left-8 top-8 bottom-8 w-px bg-zinc-800 hidden md:block"></div>
+                
+                <div class="space-y-10">
+                    <!-- Phase 1 -->
+                    <div class="flex gap-x-6 md:gap-x-10 relative">
+                        <div class="w-16 h-16 rounded-3xl bg-[#0A66C2] flex-shrink-0 flex items-center justify-center text-white text-2xl font-bold z-10">01</div>
+                        <div class="flex-1 pt-2">
+                            <div class="font-semibold text-2xl tracking-tight">Phase 1 — MVP Launch</div>
+                            <div class="text-zinc-400 mt-1">Respiratory &amp; Circulatory libraries live. Interactive Body Map activated. Core CMS and low-bandwidth infrastructure deployed.</div>
+                            <div class="mt-3 inline-flex items-center text-xs px-3 py-1 rounded-2xl bg-emerald-950 text-emerald-400"><i class="fa-solid fa-check mr-2"></i> TARGET: Q2 2026</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 2 -->
+                    <div class="flex gap-x-6 md:gap-x-10 relative">
+                        <div class="w-16 h-16 rounded-3xl bg-zinc-800 flex-shrink-0 flex items-center justify-center text-white text-2xl font-bold z-10">02</div>
+                        <div class="flex-1 pt-2">
+                            <div class="font-semibold text-2xl tracking-tight">Phase 2 — Impact Systems</div>
+                            <div class="text-zinc-400 mt-1">Integration of the Community Insights Dashboard, full MCQ logic, and anonymous literacy-lift analytics engine.</div>
+                            <div class="mt-3 inline-flex items-center text-xs px-3 py-1 rounded-2xl bg-amber-950 text-amber-400"><i class="fa-solid fa-clock mr-2"></i> TARGET: Q3 2026</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Phase 3 -->
+                    <div class="flex gap-x-6 md:gap-x-10 relative">
+                        <div class="w-16 h-16 rounded-3xl bg-zinc-800 flex-shrink-0 flex items-center justify-center text-white text-2xl font-bold z-10">03</div>
+                        <div class="flex-1 pt-2">
+                            <div class="font-semibold text-2xl tracking-tight">Phase 3 — Field Partnerships</div>
+                            <div class="text-zinc-400 mt-1">Outreach to community health workers. SomaSync deployed as a visual aid during field consultations in priority regions.</div>
+                            <div class="mt-3 inline-flex items-center text-xs px-3 py-1 rounded-2xl bg-sky-950 text-sky-400"><i class="fa-solid fa-globe mr-2"></i> TARGET: Q4 2026</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA / SCHOLARSHIP -->
+    <section class="max-w-screen-2xl mx-auto px-8 pb-20">
+        <div class="max-w-4xl mx-auto bg-zinc-900 border border-zinc-700 rounded-3xl p-14 text-center">
+            <div class="max-w-md mx-auto">
+                <h2 class="font-semibold text-4xl tracking-tighter">Ready to advance<br>public health literacy?</h2>
+                <p class="mt-4 text-zinc-400">This project is submitted in support of academic admissions and scholarship applications. Full strategic documentation available upon request.</p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 mt-9 justify-center">
+                    <button onclick="document.getElementById('scholarship-modal').showModal()" 
+                            class="px-9 py-4 bg-white hover:bg-zinc-100 active:bg-white text-zinc-950 font-semibold rounded-3xl transition-all">
+                        Access Full Strategic Brief
+                    </button>
+                    <button onclick="showDemoModal()" 
+                            class="px-9 py-4 border border-white/30 hover:bg-white/5 font-semibold rounded-3xl transition-all">
+                        Request Pilot Access
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-zinc-800 bg-zinc-950">
+        <div class="max-w-screen-2xl mx-auto px-8 py-14 text-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-y-6">
+                <div>
+                    <div class="flex items-center gap-x-3">
+                        <div class="w-7 h-7 rounded-xl bg-[#0A66C2] flex items-center justify-center">
+                            <span class="text-white text-xl font-bold tracking-tighter">S</span>
+                        </div>
+                        <span class="font-semibold">SomaSync</span>
+                    </div>
+                    <div class="text-xs text-zinc-500 mt-1">Bridging Human Anatomy and Public Health Literacy • 2026</div>
+                </div>
+                
+                <div class="text-xs text-zinc-400 flex flex-wrap gap-x-5">
+                    <span>Built for global equity</span>
+                    <span class="hidden md:inline">•</span>
+                    <span>Privacy-first analytics</span>
+                    <span class="hidden md:inline">•</span>
+                    <span>© SomaSync Internal Strategy 2026</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    
+    <!-- Scholarship / Committees Modal -->
+    <dialog id="scholarship-modal" class="modal bg-zinc-900 border border-zinc-700 rounded-3xl max-w-2xl w-full p-0 backdrop:bg-black/70">
+        <div class="p-9">
+            <div class="flex justify-between items-start">
+                <div>
+                    <div class="uppercase tracking-[2px] text-xs text-[#0A66C2]">FOR ACADEMIC ADMISSIONS &amp; SCHOLARSHIP COMMITTEES</div>
+                    <h3 class="text-3xl font-semibold tracking-tighter mt-2">Comprehensive Project Strategy &amp; Scholarship Portfolio Brief</h3>
+                </div>
+                <button onclick="document.getElementById('scholarship-modal').close()" class="text-zinc-400 hover:text-white text-2xl leading-none">&times;</button>
+            </div>
+            
+            <div class="mt-8 prose prose-invert text-sm max-w-none text-zinc-300">
+                <p>SomaSync represents a deliberate professional bridge: transitioning deep expertise in Human Anatomy into scalable, measurable impact in Public Health.</p>
+                
+                <div class="my-6 grid grid-cols-2 gap-4 text-xs">
+                    <div class="bg-zinc-950 p-4 rounded-2xl">
+                        <div class="font-mono text-[#0A66C2] mb-1">PREPARED FOR</div>
+                        <div>Chevening Scholarships • Mastercard Foundation • Academic Admissions Committees</div>
+                    </div>
+                    <div class="bg-zinc-950 p-4 rounded-2xl">
+                        <div class="font-mono text-[#0A66C2] mb-1">DATE</div>
+                        <div>May 2026</div>
+                    </div>
+                </div>
+                
+                <p class="text-xs text-zinc-400">The full 8-page strategic document details problem framing, technical architecture, impact measurement frameworks, and phased execution roadmap. It is available upon formal request from qualified committees.</p>
+            </div>
+            
+            <div class="mt-8 flex gap-x-3">
+                <button onclick="document.getElementById('scholarship-modal').close(); showDemoModal();" 
+                        class="flex-1 py-3.5 bg-[#0A66C2] hover:bg-[#0959a8] font-semibold rounded-3xl text-sm">Request Full Document</button>
+                <button onclick="document.getElementById('scholarship-modal').close()" 
+                        class="flex-1 py-3.5 border border-zinc-600 hover:bg-zinc-800 font-semibold rounded-3xl text-sm">Close</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Myth Modal -->
+    <dialog id="myth-modal" class="modal bg-zinc-900 border border-zinc-700 rounded-3xl max-w-lg w-full p-0">
+        <div class="p-8" id="myth-modal-content">
+            <!-- Populated dynamically via JS -->
+        </div>
+    </dialog>
+
+    <!-- Demo / Request Access Modal -->
+    <dialog id="demo-modal" class="modal bg-zinc-900 border border-zinc-700 rounded-3xl max-w-md w-full p-0">
+        <div class="p-9">
+            <h3 class="font-semibold text-2xl tracking-tight">Request Early Access</h3>
+            <p class="text-sm text-zinc-400 mt-1">Join our closed pilot for health workers and academic partners.</p>
+            
+            <form onsubmit="submitDemoForm(event)" class="mt-7 space-y-5">
+                <div>
+                    <label class="text-xs text-zinc-400 block mb-1.5">Full Name</label>
+                    <input type="text" required class="w-full bg-zinc-950 border border-zinc-700 focus:border-[#0A66C2] rounded-2xl px-5 py-3 text-sm outline-none">
+                </div>
+                <div>
+                    <label class="text-xs text-zinc-400 block mb-1.5">Professional Email</label>
+                    <input type="email" required class="w-full bg-zinc-950 border border-zinc-700 focus:border-[#0A66C2] rounded-2xl px-5 py-3 text-sm outline-none">
+                </div>
+                <div>
+                    <label class="text-xs text-zinc-400 block mb-1.5">Organization / Institution</label>
+                    <input type="text" class="w-full bg-zinc-950 border border-zinc-700 focus:border-[#0A66C2] rounded-2xl px-5 py-3 text-sm outline-none">
+                </div>
+                
+                <div class="pt-3">
+                    <button type="submit" class="w-full py-3.5 bg-white text-zinc-950 font-semibold rounded-3xl hover:bg-zinc-100 active:bg-zinc-200 transition-all">Submit Request</button>
+                </div>
+            </form>
+            
+            <div class="text-center mt-5">
+                <button onclick="document.getElementById('demo-modal').close()" class="text-xs text-zinc-400 hover:text-white">Maybe later</button>
+            </div>
+        </div>
+    </dialog>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '#0A66C2');
+        }
+        
+        // Navbar scroll effect
+        function initNavbar() {
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('nav-scrolled', 'shadow-xl');
+                } else {
+                    navbar.classList.remove('nav-scrolled', 'shadow-xl');
+                }
+            });
+        }
+
+        // Interactive Body Map - Systems data
+        const bodySystems = [
+            {
+                id: 'circulatory',
+                name: 'Circulatory',
+                icon: 'fa-heart-pulse',
+                color: '#ef4444',
+                insight: 'Vascular resistance and cardiac output are central to hypertension management. Users exploring this system show 3.2× higher engagement with cardiovascular prevention content.',
+                stat: '42% of all map interactions'
+            },
+            {
+                id: 'respiratory',
+                name: 'Respiratory',
+                icon: 'fa-lungs',
+                color: '#38bdf8',
+                insight: 'Alveolar gas exchange mechanics explain why certain pollutants disproportionately affect vulnerable populations. Critical for air quality public health campaigns.',
+                stat: '31% of all map interactions'
+            },
+            {
+                id: 'hepatic',
+                name: 'Hepatic (Liver)',
+                icon: 'fa-droplet',
+                color: '#a78bfa',
+                insight: 'The liver\'s dual blood supply and detoxification pathways make "detox" claims anatomically implausible. Key for myth-busting campaigns.',
+                stat: '12% of all map interactions'
+            },
+            {
+                id: 'neural',
+                name: 'Nervous',
+                icon: 'fa-brain',
+                color: '#c026ff',
+                insight: 'Understanding neural pathways helps demystify chronic pain and neurological conditions. High demand in mental health literacy initiatives.',
+                stat: '9% of all map interactions'
+            },
+            {
+                id: 'renal',
+                name: 'Renal',
+                icon: 'fa-filter',
+                color: '#f59e0b',
+                insight: 'Kidney function and blood pressure regulation are deeply interconnected. Essential for diabetes and hypertension education programs.',
+                stat: '6% of all map interactions'
+            }
+        ];
+
+        function initBodyMap() {
+            const container = document.getElementById('body-map');
+            container.innerHTML = '';
+            
+            bodySystems.forEach(system => {
+                const card = document.createElement('div');
+                card.className = `body-system bg-zinc-950 border border-zinc-800 hover:border-zinc-700 rounded-3xl p-5 cursor-pointer flex flex-col`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background-color: ${system.color}20; color: ${system.color}">
+                            <i class="fa-solid ${system.icon} text-2xl"></i>
+                        </div>
+                        <span class="text-[10px] font-mono px-2.5 py-px rounded bg-zinc-900 text-zinc-500">${system.stat.split('%')[0]}%</span>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-lg tracking-tight">${system.name}</div>
+                        <div class="text-xs text-zinc-400 mt-1 line-clamp-2">${system.insight.substring(0, 95)}...</div>
+                    </div>
+                    <div class="mt-auto pt-4 text-xs text-[#0A66C2] flex items-center gap-x-1 group-hover:gap-x-2 transition-all">
+                        EXPLORE INSIGHTS <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                `;
+                
+                card.onclick = () => showSystemModal(system);
+                container.appendChild(card);
+            });
+        }
+
+        function showSystemModal(system) {
+            const modal = document.createElement('dialog');
+            modal.className = 'modal bg-zinc-900 border border-zinc-700 rounded-3xl max-w-lg w-full p-0';
+            modal.innerHTML = `
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="flex items-center gap-x-4">
+                            <div class="w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center text-4xl" style="background-color: ${system.color}15; color: ${system.color}">
+                                <i class="fa-solid ${system.icon}"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs tracking-widest text-zinc-400">ANATOMICAL SYSTEM</div>
+                                <div class="text-3xl font-semibold tracking-tight">${system.name}</div>
+                            </div>
+                        </div>
+                        <button class="text-3xl text-zinc-400 hover:text-white leading-none" onclick="this.closest('dialog').close()">&times;</button>
+                    </div>
+                    
+                    <div class="prose prose-invert text-sm">
+                        <p class="text-lg text-zinc-200">${system.insight}</p>
+                        
+                        <div class="my-6 p-5 bg-zinc-950 rounded-2xl border border-zinc-800">
+                            <div class="uppercase text-xs tracking-[1px] text-zinc-500 mb-2">PUBLIC HEALTH APPLICATION</div>
+                            <div class="text-sm">This system is a primary driver of engagement in our pilot regions. Data from the Body Map directly informs targeted health worker training and community messaging.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-x-3 mt-8">
+                        <button onclick="this.closest('dialog').close(); document.getElementById('features').scrollIntoView({behavior:'smooth'})" 
+                                class="flex-1 py-3 bg-white text-zinc-950 font-semibold rounded-3xl text-sm">Read Full Articles</button>
+                        <button onclick="this.closest('dialog').close()" 
+                                class="flex-1 py-3 border border-zinc-700 hover:bg-zinc-800 font-semibold rounded-3xl text-sm">Close</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.showModal();
+            
+            // Auto remove on close
+            modal.addEventListener('close', () => modal.remove());
+        }
+
+        // Myth modals
+        const myths = [
+            {
+                title: "Detox teas cleanse your liver",
+                myth: "Many wellness influencers promote detox teas and cleanses as a way to 'flush' toxins from the liver.",
+                truth: "The liver is a highly sophisticated self-regulating organ. It processes toxins through specific enzymatic pathways (primarily cytochrome P450) in the hepatocytes. No external substance can 'cleanse' it beyond the liver's own remarkable capacity. Claims otherwise lack any anatomical or physiological basis.",
+                mechanism: "Detoxification occurs via phase I and phase II reactions in the smooth endoplasmic reticulum of hepatocytes. The notion of a tea accelerating this process is not supported by clinical evidence."
+            },
+            {
+                title: "You only use 10% of your brain",
+                myth: "A persistent popular myth claims humans use only a small fraction of their brain capacity.",
+                truth: "Functional MRI and PET studies show that virtually every region of the brain shows activity during normal daily tasks. Even simple actions like walking or talking recruit widespread neural networks. The 10% figure has no grounding in neuroanatomy or cognitive science.",
+                mechanism: "The brain exhibits remarkable efficiency through distributed processing. Lesion studies and modern neuroimaging confirm near-global activation patterns across cognitive and motor functions."
+            }
+        ];
+
+        function showMythModal(index) {
+            const myth = myths[index];
+            const modal = document.getElementById('myth-modal');
+            const content = document.getElementById('myth-modal-content');
+            
+            content.innerHTML = `
+                <div>
+                    <div class="flex justify-between">
+                        <div class="px-4 py-1 bg-violet-950 text-violet-400 rounded-2xl text-xs font-semibold tracking-widest inline-block">MYTH BUSTED</div>
+                        <button onclick="document.getElementById('myth-modal').close()" class="text-zinc-400 hover:text-white text-3xl leading-none">&times;</button>
+                    </div>
+                    
+                    <h3 class="text-2xl font-semibold tracking-tight mt-5">${myth.title}</h3>
+                    
+                    <div class="mt-6">
+                        <div class="text-xs uppercase tracking-widest text-red-400 mb-1">THE CLAIM</div>
+                        <p class="text-zinc-300">${myth.myth}</p>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <div class="text-xs uppercase tracking-widest text-emerald-400 mb-1">THE ANATOMICAL TRUTH</div>
+                        <p class="text-zinc-200">${myth.truth}</p>
+                    </div>
+                    
+                    <div class="mt-6 p-5 bg-zinc-950 rounded-2xl border-l-4 border-violet-500">
+                        <div class="text-xs text-violet-400 mb-1">MECHANISTIC EXPLANATION</div>
+                        <p class="text-sm text-zinc-300">${myth.mechanism}</p>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        <button onclick="document.getElementById('myth-modal').close()" class="px-8 py-2.5 text-sm font-semibold border border-zinc-600 rounded-3xl hover:bg-zinc-800">Understood</button>
+                    </div>
+                </div>
+            `;
+            modal.showModal();
+        }
+
+        // Quiz functionality
+        let currentQuestion = 0;
+        let score = 0;
+        const quizQuestions = [
+            {
+                q: "What anatomical structure is primarily responsible for regulating vascular resistance in hypertension?",
+                options: ["A. Cardiac valves", "B. Arterioles and resistance vessels", "C. Renal tubules", "D. Pulmonary alveoli"],
+                correct: 1
+            },
+            {
+                q: "In the lungs, gas exchange occurs across which microscopic structures?",
+                options: ["A. Bronchioles", "B. Alveoli", "C. Pleural membranes", "D. Pulmonary arteries"],
+                correct: 1
+            },
+            {
+                q: "Why can no external 'detox tea' meaningfully cleanse the liver?",
+                options: ["A. The liver has no detoxification role", "B. Hepatocytes perform phase I/II reactions internally via enzymatic pathways", "C. Toxins only accumulate in fat tissue", "D. The gallbladder handles all detoxification"],
+                correct: 1
+            }
+        ];
+
+        function startQuiz() {
+            document.getElementById('quiz-start').classList.add('hidden');
+            document.getElementById('quiz-questions').classList.remove('hidden');
+            currentQuestion = 0;
+            score = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = quizQuestions[currentQuestion];
+            document.getElementById('question-progress').innerHTML = `QUESTION ${currentQuestion + 1} / ${quizQuestions.length}`;
+            document.getElementById('question-text').innerHTML = q.q;
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left px-6 py-3.5 bg-zinc-950 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-500 rounded-2xl text-sm transition-all flex items-center`;
+                btn.innerHTML = `<span class="font-mono text-xs w-6 text-[#0A66C2]">${option.substring(0,2)}</span> <span>${option.substring(3)}</span>`;
+                
+                btn.onclick = () => selectAnswer(index, btn);
+                container.appendChild(btn);
+            });
+            
+            document.getElementById('next-btn').disabled = true;
+            document.getElementById('next-btn').classList.add('opacity-50', 'cursor-not-allowed');
+        }
+
+        let selectedAnswer = null;
+
+        function selectAnswer(index, btnElement) {
+            // Deselect all
+            document.querySelectorAll('#options-container button').forEach(b => {
+                b.classList.remove('!border-[#0A66C2]', '!bg-zinc-800');
+                b.classList.add('border-zinc-700');
+            });
+            
+            btnElement.classList.add('!border-[#0A66C2]', '!bg-zinc-800');
+            selectedAnswer = index;
+            
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            
+            // Check if correct for scoring
+            if (index === quizQuestions[currentQuestion].correct) {
+                score++;
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < quizQuestions.length) {
+                showQuestion();
+                selectedAnswer = null;
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-questions').classList.add('hidden');
+            document.getElementById('quiz-results').classList.remove('hidden');
+            
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            document.getElementById('final-score').innerHTML = `${percentage}<span class="text-4xl align-super">%</span>`;
+            
+            // Simulated literacy lift
+            const pre = Math.floor(Math.random() * 25) + 35; // 35-60%
+            const post = Math.min(95, percentage + 18);
+            
+            document.getElementById('pre-score').innerHTML = `${pre}%`;
+            document.getElementById('post-score').innerHTML = `${post}%`;
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-results').classList.add('hidden');
+            document.getElementById('quiz-start').classList.remove('hidden');
+        }
+
+        // Chart.js Dashboard
+        function initInsightsChart() {
+            const ctx = document.getElementById('insights-chart');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Circulatory', 'Respiratory', 'Hepatic', 'Nervous', 'Renal'],
+                    datasets: [{
+                        label: '% of Body Map Interactions',
+                        data: [42, 31, 12, 9, 6],
+                        backgroundColor: ['#ef4444', '#38bdf8', '#a78bfa', '#c026ff', '#f59e0b'],
+                        borderColor: '#27272a',
+                        borderWidth: 2,
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#18181b',
+                            titleFont: { size: 13 },
+                            callbacks: {
+                                label: (ctx) => ctx.raw + '% of total clicks'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 50,
+                            grid: { color: '#27272a' },
+                            ticks: { color: '#52525b', font: { size: 11 } }
+                        },
+                        x: {
+                            grid: { color: '#27272a', lineWidth: 0.5 },
+                            ticks: { color: '#52525b', font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Demo modal
+        function showDemoModal() {
+            document.getElementById('demo-modal').showModal();
+        }
+
+        function submitDemoForm(e) {
+            e.preventDefault();
+            const modal = document.getElementById('demo-modal');
+            modal.innerHTML = `
+                <div class="p-10 text-center">
+                    <div class="mx-auto w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-check text-emerald-400 text-4xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-2xl tracking-tight">Thank you. Request received.</h3>
+                    <p class="mt-3 text-sm text-zinc-400 max-w-xs mx-auto">Our team will review your application and respond within 5 business days. Early access is limited to qualified partners and health organizations.</p>
+                    
+                    <button onclick="document.getElementById('demo-modal').close()" 
+                            class="mt-8 px-10 py-3 bg-white text-sm font-semibold text-zinc-950 rounded-3xl">Return to site</button>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                if (modal.open) {
+                    // Keep it open for a moment
+                }
+            }, 800);
+        }
+
+        // Mobile menu
+        function toggleMobileMenu() {
+            const nav = document.querySelector('nav .hidden.md\\:flex');
+            if (nav) {
+                nav.classList.toggle('hidden');
+                nav.classList.toggle('flex');
+                nav.classList.toggle('flex-col');
+                nav.classList.toggle('absolute');
+                nav.classList.toggle('top-16');
+                nav.classList.toggle('left-0');
+                nav.classList.toggle('right-0');
+                nav.classList.toggle('bg-zinc-950');
+                nav.classList.toggle('p-8');
+                nav.classList.toggle('gap-y-4');
+                nav.classList.toggle('border-b');
+                nav.classList.toggle('border-zinc-800');
+            }
+        }
+
+        // Keyboard escape for modals
+        function initKeyboard() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape") {
+                    document.querySelectorAll('dialog[open]').forEach(d => d.close());
+                }
+            });
+        }
+
+        // Initialize everything
+        function initializeWebsite() {
+            initializeTailwind();
+            initNavbar();
+            initBodyMap();
+            initInsightsChart();
+            initKeyboard();
+            
+            // Easter egg: logo click shows founder vision
+            const logo = document.querySelector('nav .flex.items-center');
+            if (logo) {
+                logo.style.cursor = 'pointer';
+                logo.addEventListener('click', () => {
+                    const msg = document.createElement('div');
+                    msg.className = 'fixed bottom-5 left-1/2 -translate-x-1/2 bg-zinc-900 border border-zinc-700 text-xs px-5 py-3 rounded-3xl shadow-2xl flex items-center gap-x-3 z-[100]';
+                    msg.innerHTML = `<span>Founded on the principle that understanding anatomy is the first step toward health equity.</span>`;
+                    document.body.appendChild(msg);
+                    setTimeout(() => msg.remove(), 2800);
+                });
+            }
+            
+            // Subtle performance hint in console for devs
+            console.log('%c[SomaSync] High-end health tech website initialized. All interactive components ready.', 'color:#3f3f46');
+        }
+
+        // Boot
+        window.onload = initializeWebsite;
+    </script>
+</body>
+</html>
